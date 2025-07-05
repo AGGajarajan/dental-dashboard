@@ -1,7 +1,5 @@
-// src/pages/Incidents/AddIncident.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "../../styles/AddIncident.css"; // Assuming you have a CSS file for styling
 
 const AddIncident = () => {
   const navigate = useNavigate();
@@ -26,7 +24,7 @@ const AddIncident = () => {
 
   const handleChange = e => {
     const { name, value } = e.target;
-    setFormData({...formData, [name]: value});
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleFileChange = e => {
@@ -66,7 +64,7 @@ const AddIncident = () => {
     navigate('/incidents');
   };
 
-  const removeFile = (name) => {
+  const removeFile = name => {
     setFormData(prev => ({
       ...prev,
       files: prev.files.filter(f => f.name !== name)
@@ -74,38 +72,130 @@ const AddIncident = () => {
   };
 
   return (
-    <div className="add-incident-container">
-      <h2>Add Incident</h2>
-      <form onSubmit={handleSubmit}>
-        <select name="patientId" value={formData.patientId} onChange={handleChange} required>
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-md shadow-md">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Add Incident</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <select
+          name="patientId"
+          value={formData.patientId}
+          onChange={handleChange}
+          required
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
           <option value="">Select Patient</option>
-          {patients.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+          {patients.map(p => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
         </select>
 
-        <input name="title" placeholder="Title" value={formData.title} onChange={handleChange} required />
-        <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
-        <textarea name="comments" placeholder="Comments" value={formData.comments} onChange={handleChange} />
-        <input type="datetime-local" name="appointmentDate" value={formData.appointmentDate} onChange={handleChange} required />
-        <input type="number" name="cost" placeholder="Cost" value={formData.cost} onChange={handleChange} />
-        <select name="status" value={formData.status} onChange={handleChange}>
+        <input
+          name="title"
+          placeholder="Title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <textarea
+          name="description"
+          placeholder="Description"
+          value={formData.description}
+          onChange={handleChange}
+          required
+          rows={4}
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <textarea
+          name="comments"
+          placeholder="Comments"
+          value={formData.comments}
+          onChange={handleChange}
+          rows={3}
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <input
+          type="datetime-local"
+          name="appointmentDate"
+          value={formData.appointmentDate}
+          onChange={handleChange}
+          required
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <input
+          type="number"
+          name="cost"
+          placeholder="Cost"
+          value={formData.cost}
+          onChange={handleChange}
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
           <option value="">Select Status</option>
           <option value="Pending">Pending</option>
           <option value="Completed">Completed</option>
         </select>
-        <input type="date" name="nextDate" value={formData.nextDate} onChange={handleChange} />
-        <input type="file" multiple onChange={handleFileChange} />
-        
-        <div className="file-preview">
+
+        <input
+          type="date"
+          name="nextDate"
+          value={formData.nextDate}
+          onChange={handleChange}
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <input
+          type="file"
+          multiple
+          onChange={handleFileChange}
+          className="w-full text-gray-700"
+        />
+
+        {/* File preview */}
+        <div className="mt-2 space-y-2">
           {formData.files.map(f => (
-            <div key={f.name} className="file-item">
-              <span>{f.name}</span>
-              <button type="button" onClick={() => removeFile(f.name)}>Remove</button>
+            <div
+              key={f.name}
+              className="flex items-center justify-between bg-gray-100 rounded-md p-2"
+            >
+              <span className="truncate max-w-xs">{f.name}</span>
+              <button
+                type="button"
+                onClick={() => removeFile(f.name)}
+                className="text-red-500 hover:text-red-700"
+              >
+                Remove
+              </button>
             </div>
           ))}
         </div>
 
-        <button type="submit">Add Incident</button>
-        <button type="button" onClick={() => navigate('/incidents')}>Cancel</button>
+        <div className="flex gap-4">
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
+          >
+            Add Incident
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/incidents')}
+            className="bg-gray-300 text-gray-800 px-6 py-3 rounded-md hover:bg-gray-400 transition"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

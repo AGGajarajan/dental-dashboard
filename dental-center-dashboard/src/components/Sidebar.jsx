@@ -1,29 +1,55 @@
-// src/components/Sidebar.jsx
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Sidebar.css'; // Assuming you have a CSS file for styling
 
 const Sidebar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <aside className="app-sidebar">
-      <div className="sidebar-header">ENTNT Dashboard</div>
-      <nav>
+    <aside className="w-64 bg-dark-gray border-r border-gray-200 min-h-screen p-6 hidden md:flex flex-col">
+      <div className="text-xl font-bold mb-8 text-blue-700 select-none cursor-default">
+        ENTNT Dashboard
+      </div>
+
+      <nav className="flex flex-col space-y-3">
         {user && user.role === 'Admin' && (
           <>
-            <button onClick={() => navigate('/')}>Dashboard</button>
-            <button onClick={() => navigate('/patients')}>Patients</button>
-            <button onClick={() => navigate('/incidents')}>Incidents</button>
+            <button
+              onClick={() => navigate('/')}
+              className="text-gray-700 hover:text-blue-700 text-left w-full transition"
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => navigate('/patients')}
+              className="text-gray-700 hover:text-blue-700 text-left w-full transition"
+            >
+              Patients
+            </button>
+            <button
+              onClick={() => navigate('/incidents')}
+              className="text-gray-700 hover:text-blue-700 text-left w-full transition"
+            >
+              Incidents
+            </button>
           </>
         )}
 
         {user && user.role === 'Patient' && (
           <>
-            <button onClick={() => navigate('/')}>Dashboard</button>
-            <button onClick={() => navigate('/mydata')}>My Data</button>
+            <button
+              onClick={() => navigate('/')}
+              className="text-gray-700 hover:text-blue-700 text-left w-full transition"
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => navigate('/mydata')}
+              className="text-gray-700 hover:text-blue-700 text-left w-full transition"
+            >
+              My Data
+            </button>
           </>
         )}
       </nav>

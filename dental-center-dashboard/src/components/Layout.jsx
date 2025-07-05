@@ -1,21 +1,32 @@
 import React from 'react';
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
-import Footer from '../components/Footer';
-import '../styles/Layout'; 
+import { useLocation } from 'react-router-dom';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import Footer from './Footer';
 
 const Layout = ({ children }) => {
+  const location = useLocation();
+
+  // Show sidebar only if not on the dashboard (/)
+  const showSidebar = location.pathname !== '/';
+
   return (
-    <div className="layout-wrapper">
+    <div className="flex flex-col min-h-screen bg-gray-100">
       <Header />
-      <div className="main-content">
-        <Sidebar />
-        <div className="content-body">{children}</div>
+
+      <div className="flex flex-1">
+        {showSidebar && (
+          <div className="w-64 bg-white shadow-md">
+            <Sidebar />
+          </div>
+        )}
+
+        <main className={`flex-1 p-4 ${!showSidebar ? 'w-full' : ''}`}>
+          {children}
+        </main>
       </div>
-      <div>
-        <Footer />
-      </div>
-      
+
+      <Footer />
     </div>
   );
 };
